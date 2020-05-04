@@ -1,0 +1,28 @@
+{
+  "name": "gateway",
+  "version": "1.0.0",
+  "description": "api gateway",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --legacy-watch src",
+    "start:prod": "node src/index.js"
+  },
+  "author": "Fash",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.5.5",
+    "axios": "^0.19.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.3",
+    "express-slash": "^2.0.1",
+    "form-data": "^3.0.0",
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.3.0",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.2",
+    "require-dir": "^1.2.0"
+  }
+}
