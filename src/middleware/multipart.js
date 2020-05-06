@@ -4,10 +4,7 @@ const Blob = require("cross-blob");
 
 /**
  * form submission injection
- * handles api : content_handling:
- passthrough: true
- to_binary: false
- to_text: false
+ * handles api : content_handling: passthrough|to_text|to_binary
  * @param req
  * @param res
  * @param next
