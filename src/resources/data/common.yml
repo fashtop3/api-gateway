@@ -1,9 +1,0 @@
----
-name: Common Resource
-path: "/api/v1/app_data"
-methods:
-  get:
-    name: ''
-    http:
-      endpoint: http://api_server:5000/api/v1/app_data
-      method: get
