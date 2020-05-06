@@ -1,0 +1,8 @@
+{
+  "restartable": true,
+  "watch": [
+    "src/",
+    "src/resources/data"
+  ],
+  "ext": "js, css, yml"
+}

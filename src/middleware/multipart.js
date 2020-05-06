@@ -1,11 +1,22 @@
 // var config = require('../../config');
 const FormData = require('form-data');
+const Blob = require("cross-blob");
 
+/**
+ * form submission injection
+ * handles api : content_handling:
+ passthrough: true
+ to_binary: false
+ to_text: false
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = (req, res, next) => {
 
-  const FORM_MULTIPART = 'multipart/form-data';
-
-  if (req.headers['content-type'] === FORM_MULTIPART) {
+  let regExp = new RegExp('multipart/form-data');
+  if (regExp.test(req.headers['content-type'])) {
+    // console.log(req.headers['content-type'])
     let form = new FormData();
     for (const key in req.files) {
       if (req.files.hasOwnProperty(key)) {
@@ -13,11 +24,26 @@ module.exports = (req, res, next) => {
       }
     }
 
+
+    // handles content_handling
     for (const i in req.body) {
-      if (req.body.hasOwnProperty(i))
-        form.append(i, req.body[i])
+      if (req.body.hasOwnProperty(i)) {
+        switch (req.content_handling) {
+          case "to_binary":
+            form.append(i, Buffer.from(req.body[i]))
+            break;
+          case "to_text":
+            form.append(i, Buffer.from(JSON.stringify(req.body[i])), {
+              contentType: 'text/plain'
+            })
+            break;
+          default: //passthrough
+            form.append(i, Buffer.from(JSON.stringify(req.body[i])))
+        }
+      }
     }
 
+    delete req.headers['content-length']
     req.headers['content-type'] = `multipart/form-data; boundary=${form._boundary}`;
     req.body = form;
   }

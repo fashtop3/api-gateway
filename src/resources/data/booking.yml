@@ -1,0 +1,9 @@
+---
+name: Booking Resource
+path: "/api/v1/stay/*?"
+methods:
+  all:
+    name: ''
+    http:
+      endpoint: http://api_server:5000/api/v1/stay
+      method: all

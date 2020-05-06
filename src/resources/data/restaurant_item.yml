@@ -1,0 +1,33 @@
+---
+name: Item Resource
+path: "/api/v1/restaurant/item"
+methods:
+  post:
+    name: add new item
+    http:
+      endpoint: http://restaurant:5000/api/v1/restaurant/item/
+      method: post
+    proxy: false
+    content_handling:
+      passthrough: true
+      to_binary: false
+      to_text: false
+resources:
+- name: get item Id
+  path: "/:id"
+  methods:
+    get:
+      http:
+        endpoint: http://restaurant:5000/api/v1/restaurant/item/:id/
+        method: get
+- name: get item menu lists
+  path: "/menu/:hotel_id/"
+  methods:
+    get:
+      http:
+        endpoint: http://restaurant:5000/api/v1/restaurant/item/menu/:hotel_id/
+        method: get
+        request_interceptor:
+          - authenticator
+        response_interceptor:
+          - response

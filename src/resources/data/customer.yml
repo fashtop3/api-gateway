@@ -1,0 +1,10 @@
+---
+name: Customer Resource
+path: "/api/v1/customer/*"
+methods:
+  all:
+    name: ''
+    http:
+      endpoint: http://api_server:5000/api/v1/customer/:proxy
+      method: all
+    proxy: true
