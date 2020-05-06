@@ -1,0 +1,44 @@
+---
+name: Hotel resource
+path: "/api/v1/merchants"
+methods:
+  get:
+    name: ''
+    http:
+      endpoint: http://api_server:5000/api/v1/merchants
+      method: get
+    proxy: false
+    content_handling:
+      passthrough: true
+      to_binary: false
+      to_text: false
+resources:
+- name: ''
+  path: "/onboard"
+  methods:
+    post:
+      http:
+        endpoint: http://api_server:5000/api/v1/merchants/onboard
+        method: post
+- name: ''
+  path: "/:id"
+  methods:
+    patch:
+      http:
+        endpoint: http://api_server:5000/api/v1/merchants/:id
+        method: patch
+  resources:
+  - name: ''
+    path: "/upload_logo"
+    methods:
+      patch:
+        http:
+          endpoint: http://api_server:5000/api/v1/merchants/:id/upload_logo
+          method: patch
+  - name: ''
+    path: "/upload_banner"
+    methods:
+      patch:
+        http:
+          endpoint: http://api_server:5000/api/v1/merchants/:id/upload_banner
+          method: patch

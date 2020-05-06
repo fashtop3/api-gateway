@@ -1,6 +1,8 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 const axios = require('axios');
+var fs = require('fs');
+
 
 //load middleware
 const {request_middleware, response_middleware} = require('../middleware/');
@@ -8,10 +10,10 @@ const {request_middleware, response_middleware} = require('../middleware/');
 /**
  *
  * @param url
- * @param obj
+ * @param req
  * @returns {*}
  */
-function reverse(url, obj) {
+function reverse(url, req) {
   /**
    * do a regex match and for all
    * matches execute the callback
@@ -20,33 +22,59 @@ function reverse(url, obj) {
     // replace match for : and ? with a space
     // return an object
     c = c.replace(/[/:?]/g, '');
-    return obj[c] ? '/' + obj[c] : "";
+    if (!!req.is_proxy) {
+      return req.params[0] ? '/' + req.params[0] : "";
+    }
+    return req.params[c] ? '/' + req.params[c] : "";
   });
+}
+
+/***
+ * injects req functions
+ * @param target
+ * @returns {function(...[*]=)}
+ */
+function injectTargetRules(target) {
+  return function (req, resp, next) {
+    req.target = target;
+    req.is_proxy = !!target.proxy && target.proxy;
+    req.content_handling = !!target.content_handling && target.content_handling
+    next();
+  }
 }
 
 /**
  *
- * @param target
- * @returns {function(...[*]=)}
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<*>}
  */
-function proxy(target) {
-  return async (req, res, next) => {
+async function proxy (req, res, next) {
     //proxy request adapter axios
-    await axios({
-      method: target.http.method,
-      url: reverse(target.http.endpoint, req.params),
+    // console.log(req.headers)
+    return await axios({
+      method: req.is_proxy ? req.method : req.target.http.method,
+      url: reverse(req.target.http.endpoint, req),
       data: req.body,
       params: req.query,
       headers: req.headers
     })
       .then(resp => {
+        // console.log(resp)
         res._intercept = resp
+        return next();
       })
       .catch(err => {
-        res.status(err.response.status).send(err.response.data)
+        if (err.response) {
+          return res.status(err.response.status).send(err.response.data)
+        }
+        console.error('res.status(502): bad gateway')
+        return res.status(502).send({
+          message: "no response or server" +
+            " unreachable", status: false
+        })
       })
-    next();
-  }
 }
 
 /**
@@ -78,7 +106,7 @@ function bootstrap(resource, path,) {
       /**
        * Register gateway routes
        */
-      router[method](path, request_intercept, proxy(target), response_intercept, function (req, res) {
+      router[method](path, injectTargetRules(target), request_intercept, proxy, response_intercept, function (req, res) {
         res.status(res._intercept.status).send(res._intercept.data)
       })
     }
