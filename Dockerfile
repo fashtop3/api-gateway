@@ -1,21 +1,26 @@
-FROM node:10.19.0-alpine
+FROM node:10.19.0-alpine as builder
 
 # Create app directory
 WORKDIR /usr/src/app
 
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-# install and cache app dependencies
-COPY package.json /usr/src/app/package.json
+ARG NODE_ENV
+ENV NODE_ENV=${NODE_ENV}
+
+#COPY package.json /usr/src/app/package.json
+COPY package*.json ./
 
 RUN npm install --silent
 # If you are building your code for production
-# RUN npm ci --only=production
+#RUN NODE_ENV=production npm ci
+#RUN npm ci --only=production
 
-# Bundle app source
-#COPY . .
+# The instructions for second stage
+#FROM node:10.19.0-alpine
+#
+#WORKDIR /usr/src/app
+#COPY --from=builder /usr/src/app/node_modules .
+
+COPY . .
 
 EXPOSE 8080
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "start:prod" ]
