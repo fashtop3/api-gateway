@@ -5,10 +5,12 @@ services:
   gateway:
     container_name: gateway
     build:
-      context: services/gateway
+      context: .
       dockerfile: Dockerfile
     volumes:
       - /usr/src/app/node_modules
+      - /usr/src/app/src/middleware/plugins
+      - /usr/src/app/src/resources/data
       - .:/usr/src/app
     environment:
       - NODE_ENV=development
