@@ -3,5 +3,5 @@
 # api-gateway
 microservices api gateway 
 
-![](images/api-gateway.png)
+<img src="images/api-gateway.png" width="300" height="500" />
 
