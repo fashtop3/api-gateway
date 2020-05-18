@@ -3,5 +3,5 @@
 # api-gateway
 microservices api gateway 
 
-![](images/api-gateway.png)
+![](https://github.com/fashtop3/api-gateway/blob/master/images/api-gateway.png)
 
