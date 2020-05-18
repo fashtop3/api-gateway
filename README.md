@@ -3,5 +3,5 @@
 # api-gateway
 microservices api gateway 
 
-<img src="images/api-gateway.png" width="800" height="600" />
+<img src="images/api-gateway.png" width="800" height="800" />
 
