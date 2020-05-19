@@ -17,8 +17,8 @@ RUN npm install --silent
 # The instructions for second stage
 #FROM node:10.19.0-alpine
 #
-#WORKDIR /usr/src/app
-#COPY --from=builder /usr/src/app/node_modules .
+#WORKDIR /usr/src
+#COPY --from=builder /usr/src/node_modules .
 
 COPY . .
 

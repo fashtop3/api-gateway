@@ -3,7 +3,6 @@ let router = express.Router();
 const axios = require('axios');
 var fs = require('fs');
 
-
 //load middleware
 const {request_middleware, response_middleware} = require('../middleware/');
 
@@ -28,6 +27,7 @@ function reverse(url, req) {
     return req.params[c] ? '/' + req.params[c] : "";
   });
 }
+
 
 /***
  * injects req functions
