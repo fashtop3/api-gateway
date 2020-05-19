@@ -50,31 +50,31 @@ function injectTargetRules(target) {
  * @param next
  * @returns {Promise<*>}
  */
-async function proxy (req, res, next) {
-    //proxy request adapter axios
-    // console.log(req.headers)
-    return await axios({
-      method: req.is_proxy ? req.method : req.target.http.method,
-      url: reverse(req.target.http.endpoint, req),
-      data: req.body,
-      params: req.query,
-      headers: req.headers
+async function proxy(req, res, next) {
+  //proxy request adapter axios
+  // console.log(req.headers)
+  return await axios({
+    method: req.is_proxy ? req.method : req.target.http.method,
+    url: reverse(req.target.http.endpoint, req),
+    data: req.body,
+    params: req.query,
+    headers: req.headers
+  })
+    .then(resp => {
+      // console.log(resp)
+      res._intercept = resp
+      return next();
     })
-      .then(resp => {
-        // console.log(resp)
-        res._intercept = resp
-        return next();
+    .catch(err => {
+      return res.status(err.response.status).send(err.response.data)
+    })
+    .catch(e => {
+      console.error('res.status(502): bad gateway')
+      return res.status(502).send({
+        message: "no response or server" +
+          " unreachable", status: false
       })
-      .catch(err => {
-        if (err.response) {
-          return res.status(err.response.status).send(err.response.data)
-        }
-        console.error('res.status(502): bad gateway')
-        return res.status(502).send({
-          message: "no response or server" +
-            " unreachable", status: false
-        })
-      })
+    })
 }
 
 /**
