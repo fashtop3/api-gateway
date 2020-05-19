@@ -19,7 +19,7 @@ function interpolate(s, config) {
     });
   }
 
-const req_api_file = req(path.join(__dirname, 'data'))
+const req_api_file = req(path.join(__dirname, '../data/resources'))
 
 
 /**
