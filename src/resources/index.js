@@ -25,7 +25,7 @@ const req_api_file = req(path.join(__dirname, 'data'))
 /**
  * Stringify the api object and load the config file with interpolations
  */
-const data = interpolate(JSON.stringify(req_api_file), require('./config'));
+const data = interpolate(JSON.stringify(req_api_file), require('/usr/src/data/config.js'));
 // console.log(data)
 
 // module.exports = require('require-dir')('./data', {extensions: ['.json',]});   // defaults to '.'
