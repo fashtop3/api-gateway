@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 const axios = require('axios');
 var fs = require('fs');
+const https = require('https')
 
 //load middleware
 const {request_middleware, response_middleware} = require('../middleware/');
@@ -44,6 +45,14 @@ function injectTargetRules(target) {
 }
 
 /**
+ * Proxy Https TLS error
+ * @type {https.Agent}
+ */
+const agent = new https.Agent({
+  rejectUnauthorized: false
+});
+
+/**
  *
  * @param req
  * @param res
@@ -58,10 +67,10 @@ async function proxy(req, res, next) {
     url: reverse(req.target.http.endpoint, req),
     data: req.body,
     params: req.query,
-    headers: req.headers
+    headers: req.headers,
+    httpsAgent: agent
   })
     .then(resp => {
-      // console.log(resp)
       res._intercept = resp
       return next();
     })
