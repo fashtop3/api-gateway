@@ -1,0 +1,25 @@
+version: '2.4'
+
+services:
+
+  gateway:
+    container_name: gateway
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    volumes:
+      - /usr/src/app/node_modules
+      - /usr/src/app/src/middleware/plugins
+      - /usr/src/app/src/resources/data
+      - .:/usr/src/app
+    environment:
+      - NODE_ENV=development
+    networks:
+      - backend
+    ports:
+      - 8080
+    restart: always
+
+networks:
+  backend:
+
