@@ -6,6 +6,10 @@ WORKDIR /usr
 ARG NODE_ENV
 ENV NODE_ENV=${NODE_ENV}
 
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/node_modules/.bin:$PATH
+ENV SHELL=/bin/sh
+
 #COPY package.json /usr/src/app/package.json
 COPY package*.json ./
 
