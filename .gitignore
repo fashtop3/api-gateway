@@ -11,5 +11,5 @@
 # production
 /build
 
-docker-commpose.dev.yaml
-Dockerfile-dev
+/docker-compose.dev.yml
+/Dockerfile-dev
