@@ -9,7 +9,7 @@ exports.request_middleware = (interceptor) => {
     _interceptor = interceptor.filter(p => !!plugins[p]).map(p => plugins[p]);
   }
 
-  return defaults.concat(_interceptor)
+  return _interceptor.concat(defaults)
 }
 exports.response_middleware = (interceptor) => {
   let _interceptor = [];
