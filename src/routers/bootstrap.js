@@ -74,14 +74,18 @@ async function proxy(req, res, next) {
       res._intercept = resp
       return next();
     })
-    .catch(err => {
-      return res.status(err.response.status).send(err.response.data)
+    .catch(({response, ...e}) => {
+      if (!response) throw e
+      return res.status(response.status).send(response.data)
     })
     .catch(e => {
-      console.error('res.status(502): bad gateway')
+      const err = e.toJSON()
+      console.error(err)
       return res.status(502).send({
-        message: "no response or server" +
-          " unreachable", status: false
+        endpoint: err.config.url,
+        method: err.config.method,
+        message: err.code,
+        code: 502
       })
     })
 }
