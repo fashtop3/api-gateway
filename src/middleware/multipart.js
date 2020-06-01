@@ -41,6 +41,7 @@ module.exports = (req, res, next) => {
     }
 
     delete req.headers['content-length']
+    delete req.headers['host']
     req.headers['content-type'] = `multipart/form-data; boundary=${form._boundary}`;
     req.body = form;
   }
