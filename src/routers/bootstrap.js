@@ -62,6 +62,7 @@ const agent = new https.Agent({
 async function proxy(req, res, next) {
   //proxy request adapter axios
   // console.log(req.headers)
+  delete req.headers['host'];
   return await axios({
     method: req.is_proxy ? req.method : req.target.http.method,
     url: reverse(req.target.http.endpoint, req),
