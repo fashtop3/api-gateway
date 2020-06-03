@@ -1,0 +1,2 @@
+1. implement directories grouping for api/resources
+2. allow plugins to export multiple middleware functions i.e allow array of function middleware
