@@ -8,8 +8,8 @@ services:
       context: .
       dockerfile: Dockerfile-dev
     volumes:
-      - /usr/src/node_modules
-      - ./src:/usr/src/
+      - /usr/app/node_modules
+      - .:/usr/app/
     environment:
       - NODE_ENV=development
     networks:

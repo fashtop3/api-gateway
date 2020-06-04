@@ -1,14 +1,16 @@
 FROM node:10.19.0-alpine as builder
 
 # Create app directory
-WORKDIR /usr
+WORKDIR /usr/app
 
 ARG NODE_ENV
 ENV NODE_ENV=${NODE_ENV}
 
 # add `/usr/src/app/node_modules/.bin` to $PATH
-ENV PATH /usr/src/node_modules/.bin:$PATH
+ENV PATH /usr/app/node_modules/.bin:$PATH
 ENV SHELL=/bin/sh
+
+RUN npm install pm2@latest -g
 
 #COPY package.json /usr/src/app/package.json
 COPY package*.json ./
@@ -27,4 +29,5 @@ RUN npm install --silent
 COPY . .
 
 EXPOSE 8080
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "pm2",  "start", "ecosystem.config.js", "--no-daemon" ]
+#CMD [ "npm", "run", "start:prod" ]
