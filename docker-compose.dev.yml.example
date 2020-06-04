@@ -6,16 +6,18 @@ services:
     container_name: gateway
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-dev
     volumes:
-      - /usr/src/app/node_modules
+      - /usr/src/node_modules
+      # - /usr/src/middleware/plugins
+      # - /usr/src/resources/data
       - .:/usr/src
     environment:
       - NODE_ENV=development
     networks:
       - backend
     ports:
-      - 8080
+      - 8111:8080
     restart: always
 
 networks:

@@ -1,0 +1,43 @@
+---
+name: Conierge Resource
+path: "/api/v1/concierge"
+methods:
+  get:
+    name: ''
+    http:
+      endpoint: http://api_server:5000/api/v1/concierge
+      method: get
+  post:
+    name: ''
+    http:
+      endpoint: http://api_server:5000/api/v1/concierge
+      method: post
+resources:
+- name: ''
+  path: "/*"
+  methods:
+    all:
+      name: ''
+      http:
+        endpoint: http://api_server:5000/api/v1/concierge/:proxy
+        method: all
+      proxy: true
+      content_handling: to_binary #[passthrough|to_binary|to_text]
+#    patch:
+#      name: ''
+#      http:
+#        endpoint: http://api_server:5000/api/v1/concierge/:id
+#        method: patch
+#- name: ''
+#  path: "/:id"
+#  methods:
+#    get:
+#      name: ''
+#      http:
+#        endpoint: http://api_server:5000/api/v1/concierge/:id
+#        method: get
+#    patch:
+#      name: ''
+#      http:
+#        endpoint: http://api_server:5000/api/v1/concierge/:id
+#        method: patch

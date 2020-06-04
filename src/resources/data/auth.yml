@@ -1,0 +1,47 @@
+---
+name: Authentication Resource
+path: "/api/v1/registration"
+methods:
+  post:
+    name: ''
+    http:
+      endpoint: http://api_server:5000/api/v1/registration
+      method: post
+resources:
+- name: ''
+  path: "/login"
+  methods:
+    post:
+      name: ''
+      http:
+        endpoint: http://api_server:5000/api/v1/registration/login
+        method: post
+    get:
+      name: ''
+      http:
+        endpoint: http://api_server:5000/api/v1/registration/login
+        method: get
+- name: ''
+  path: "/recover"
+  methods:
+    post:
+      name: ''
+      http:
+        endpoint: http://api_server:5000/api/v1/registration/recover
+        method: post
+- name: ''
+  path: "/resend-activation-link"
+  methods:
+    post:
+      name: ''
+      http:
+        endpoint: http://api_server:5000/api/v1/registration/resend-activation-link
+        method: post
+- name: ''
+  path: "/verify/:token"
+  methods:
+    get:
+      name: ''
+      http:
+        endpoint: http://api_server:5000/api/v1/registration/verify/:token
+        method: get
