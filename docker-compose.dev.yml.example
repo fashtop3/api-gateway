@@ -9,9 +9,7 @@ services:
       dockerfile: Dockerfile-dev
     volumes:
       - /usr/src/node_modules
-      # - /usr/src/middleware/plugins
-      # - /usr/src/resources/data
-      - .:/usr/src
+      - ./src:/usr/src/
     environment:
       - NODE_ENV=development
     networks:
