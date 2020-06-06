@@ -9,6 +9,7 @@ const fileUpload = require('express-fileupload');
 // App
 const app = express();
 var router = require('./routers/router');
+const nocache = require('nocache');
 
 // var db = require('./db');
 
@@ -20,6 +21,8 @@ app.use(cors());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(fileUpload());
+
+app.use(nocache());
 
 // aws ELB healthcheck
 router.get('/api/', (req, res) => {
