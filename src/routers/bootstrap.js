@@ -97,8 +97,6 @@ async function proxy(req, res, next) {
  */
 const resourceGroup = Object.values(require('../resources/'))
 
-
-console.log(resourceGroup);
 console.log("Registering:...");
 
 /**
