@@ -97,6 +97,8 @@ async function proxy(req, res, next) {
  */
 const resourceGroup = Object.values(require('../resources/'))
 
+
+console.log(resourceGroup);
 console.log("Registering:...");
 
 /**
@@ -120,16 +122,20 @@ function bootstrap(resource, path,) {
       /**
        * Register gateway routes
        */
-      router[method](path, injectTargetRules(target), request_intercept, proxy, response_intercept, function (req, res) {
+      return router[method](path, injectTargetRules(target), request_intercept, proxy, response_intercept, function (req, res) {
         res.status(res._intercept.status).send(res._intercept.data)
       })
     }
   }
   //check for recursive call
   if (resource.hasOwnProperty('resources')) {
-    resource.resources.map(obj => bootstrap(obj, path + obj.path))
+    return resource.resources.map(obj => bootstrap(obj, path + obj.path))
   }
+
+  //handles resources in subdirectory dept 1
+  return Object.values(resource).map(o => bootstrap(o, o.path,))
 }
+
 
 /**
  *

@@ -19,8 +19,13 @@ function interpolate(s, config) {
   });
 }
 
-const req_api_file = req(path.join(__dirname, '../data/resources'))
+const req_api_file = req({
+  targets: path.join(__dirname, '../data/resources'),
+  fileToProp: file => file //set the filename as the key pair
+})
 
+
+// console.log(req_api_file)
 
 /**
  * Stringify the api object and load the config file with interpolations
@@ -28,8 +33,9 @@ const req_api_file = req(path.join(__dirname, '../data/resources'))
 let config_obj = {};
 try {
   config_obj = require(path.join(__dirname, '../data/config.js'))
+} catch (e) {
+  console.log(e)
 }
-catch (e) {}
 const parsable = interpolate(JSON.stringify(req_api_file), config_obj);
 // console.log(data)
 
