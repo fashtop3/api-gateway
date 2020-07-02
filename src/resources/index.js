@@ -24,9 +24,6 @@ const req_api_file = req({
   fileToProp: file => file //set the filename as the key pair
 })
 
-
-// console.log(req_api_file)
-
 /**
  * Stringify the api object and load the config file with interpolations
  */

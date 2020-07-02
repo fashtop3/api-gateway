@@ -97,6 +97,26 @@ async function proxy(req, res, next) {
  */
 const resourceGroup = Object.values(require('../resources/'))
 
+/**
+ * Route registering log formatter
+ * @param method
+ * @param path
+ * @param target
+ * @constructor
+ */
+function Routes(method, path, target, ) {
+  this.method = method;
+  this.path = path;
+  this.tm = target.http.method.toUpperCase();
+  // this.target = target;
+  this.req_i = JSON.stringify(target.http.request_interceptor||{}).padEnd(30);
+  this.resp_i = target.http.response_interceptor;
+}
+
+let route_logs = [];
+
+// console.table([new Routes("Jane", "Smith"), new Routes("John", "Smith")]);
+
 console.log("Registering:...");
 
 /**
@@ -108,7 +128,10 @@ function bootstrap(resource, path,) {
   if (resource.hasOwnProperty('methods')) {
     for (const [method, target] of Object.entries(resource.methods)) {
 
-      console.log(`[${method.toUpperCase()}]`, '->', path)
+      // console.log(`[${method.toUpperCase()}]`, '->', path)
+
+      let rLogObj = new Routes(method.toUpperCase(), path.padEnd(60), target)
+      route_logs.push(rLogObj)
 
       /**
        * Load middleware and custom interceptor
@@ -140,4 +163,5 @@ function bootstrap(resource, path,) {
  */
 resourceGroup.map(resource => bootstrap(resource, resource.path));
 
+console.table(route_logs)
 module.exports = router;
