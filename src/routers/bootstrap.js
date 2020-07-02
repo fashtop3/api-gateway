@@ -110,7 +110,7 @@ function Routes(method, path, target, ) {
   this.tm = target.http.method.toUpperCase();
   // this.target = target;
   this.req_i = JSON.stringify(target.http.request_interceptor||{}).padEnd(30);
-  this.resp_i = target.http.response_interceptor;
+  this.resp_i = JSON.stringify(target.http.response_interceptor||{}).padEnd(20);
 }
 
 let route_logs = [];
