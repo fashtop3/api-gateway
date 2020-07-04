@@ -143,10 +143,11 @@ function bootstrap(resource, path,) {
       /**
        * Register gateway routes
        */
-      return router[method](path, injectTargetRules(target), request_intercept, proxy, response_intercept, function (req, res) {
+      router[method](path, injectTargetRules(target), request_intercept, proxy, response_intercept, function (req, res) {
         res.status(res._intercept.status).send(res._intercept.data)
       })
     }
+    return ;
   }
   //check for recursive call
   if (resource.hasOwnProperty('resources')) {
