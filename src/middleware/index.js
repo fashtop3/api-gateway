@@ -58,7 +58,7 @@ exports.request_middleware = (interceptor) => {
  */
 exports.response_middleware = (interceptor) => {
   let _interceptor = [];
-  if (!!interceptor && !!interceptor.length) {
+  if (!!interceptor && Array.isArray(interceptor)) {
     /**
      * filter through lists of interceptors
      * check if the filename exist with a function exported as a default value
@@ -69,5 +69,27 @@ exports.response_middleware = (interceptor) => {
     _interceptor = interceptor.filter(p => !!plugins[p]).map(p => plugins[p]);
   }
 
-  return _interceptor
+  /**
+   * filter through lists of interceptors
+   * check if the object exists in plugins and map interceptor array to
+   * plugins
+   * @type {BigUint64Array}
+   * @private
+   */
+  else if (interceptor instanceof Object) {
+    try {
+      //loop the request_interceptor object
+      for (const key in interceptor) {
+        if (plugins.hasOwnProperty(key)) {
+          _interceptor = interceptor[key]
+            .filter(p => !!plugins[key][p])
+            .map(p => plugins[key][p])
+        }
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  return _interceptor.concat(defaults)
 }
