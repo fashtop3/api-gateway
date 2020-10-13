@@ -27,7 +27,10 @@ module.exports = (req, res, next) => {
       if (req.body.hasOwnProperty(i)) {
         switch (req.content_handling) {
           case "to_binary":
-            form.append(i, Buffer.from(req.body[i]))
+            // ensure it's not picking from FormData{} object
+            if (!req.body.hasOwnProperty('_boundary')) {
+              form.append(i, Buffer.from(req.body[i]))
+            }
             break;
           case "to_text":
             form.append(i, Buffer.from(JSON.stringify(req.body[i])), {

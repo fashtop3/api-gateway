@@ -1,5 +1,6 @@
 //load middleware
 const path = require('path');
+//loads default middlewares eg [multipart]
 const defaults = Object.values(require('require-dir')());
 const plugins = require('require-dir')(path.join(__dirname, '../data/plugins'), {
   recurse: true,
